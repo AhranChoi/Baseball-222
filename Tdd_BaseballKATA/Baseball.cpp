@@ -21,11 +21,15 @@ public:
 	GuessResult guess(const string& guessNumber) {
 		assertIllegalArgument(guessNumber);
 
-		GuessResult result = { false, 0, 0 };
-
 		if (guessNumber == question) {
 			return SOVED;
 		}
+		return getUnsolvedGameResult(guessNumber);
+	}
+
+	GuessResult getUnsolvedGameResult(const std::string& guessNumber)
+	{
+		GuessResult result = { false, 0, 0 };
 
 		result.balls = countBalls(guessNumber);
 		result.strikes = countStrikes(guessNumber);
