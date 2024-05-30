@@ -14,5 +14,10 @@ public:
 				throw invalid_argument("Must be numbers.");
 			}
 		}
+
+		if (guessNumber[0] == guessNumber[1]
+			|| guessNumber[0] == guessNumber[2]
+			|| guessNumber[1] == guessNumber[2])
+			throw invalid_argument("Must not habe the same number");
 	}
 };
