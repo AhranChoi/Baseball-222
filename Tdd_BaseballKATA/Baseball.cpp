@@ -10,6 +10,7 @@ struct GuessResult {
 
 class Baseball {
 private:
+	const GuessResult SOVED = { true, 3, 0 };
 	string question;
 
 public:
@@ -18,24 +19,43 @@ public:
 	}
 
 	GuessResult guess(const string& guessNumber) {
+		assertIllegalArgument(guessNumber);
+
 		GuessResult result = { false, 0, 0 };
 
-		assertIllegalArgument(guessNumber);
 		if (guessNumber == question) {
-			return { true, 3, 0 };
+			return SOVED;
 		}
 
-		for (int i = 0; i < 3; i++) {
-			if (guessNumber[i] == question[i]) {
-				result.strikes++;
-			}
-		}
-
-		if (guessNumber == "321") {
-			return { false, 1, 2 };
-		}
+		result.balls = countBalls(guessNumber);
+		result.strikes = countStrikes(guessNumber);
 
 		return result;
+	}
+
+	int countStrikes(const std::string& guessNumber)
+	{
+		int strikeCount = 0;
+		for (int i = 0; i < 3; i++) {
+			if (guessNumber[i] == question[i]) {
+				strikeCount++;
+			}
+		}
+		return strikeCount;
+	}
+
+	int countBalls(const std::string& guessNumber)
+	{
+		int ballCount = 0;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (i == j) continue;
+				if (guessNumber[i] == question[j]) {
+					ballCount++;
+				}
+			}
+		}
+		return ballCount;
 	}
 
 	void assertIllegalArgument(const std::string& guessNumber)
